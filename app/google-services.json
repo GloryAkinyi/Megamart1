@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "243282418900",
+    "project_id": "megamart-d9a38",
+    "storage_bucket": "megamart-d9a38.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:243282418900:android:a12414d457baeeafb5af41",
+        "android_client_info": {
+          "package_name": "com.glory.megamart"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwJ4HwDnDGmpyauJN8nf-uDsfYJ7BX1Tc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

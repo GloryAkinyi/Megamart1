@@ -29,6 +29,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
+import androidx.compose.material3.SearchBar
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
@@ -88,7 +89,7 @@ fun ItemScreen(navController: NavController){
             painter = painterResource(id = R.drawable.img_1),
             contentDescription = "sneaker",
             modifier = Modifier.height(250.dp).fillMaxWidth(),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.FillWidth
         )
         //End
 
@@ -97,6 +98,8 @@ fun ItemScreen(navController: NavController){
         //Searchbar
 
         var search by remember { mutableStateOf("") }
+
+
         OutlinedTextField(
             value = search,
             onValueChange = {  search = it },

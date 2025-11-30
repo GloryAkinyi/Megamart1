@@ -1,19 +1,17 @@
-package com.glory.megamart.ui.screens.scaffold
+package com.glory.megamart.ui.screens.order
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Favorite
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.ShoppingCart
@@ -30,32 +28,24 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode.Companion.Color
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
-import com.airbnb.lottie.compose.LottieAnimation
-import com.airbnb.lottie.compose.LottieCompositionSpec
-import com.airbnb.lottie.compose.animateLottieCompositionAsState
-import com.airbnb.lottie.compose.rememberLottieComposition
-import com.glory.megamart.R
+import com.glory.megamart.data.OrderViewModel
 import com.glory.megamart.navigation.ROUT_HOME
 import com.glory.megamart.ui.theme.newOrange
 import com.glory.megamart.ui.theme.newWhite
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScaffoldScreen(navController: NavController){
+fun ViewOrdersScreen(navController: NavController) {
 
     //Scaffold
 
@@ -66,7 +56,7 @@ fun ScaffoldScreen(navController: NavController){
         //TopBar
         topBar = {
             TopAppBar(
-                title = { Text("Item Screen") },
+                title = { Text("View All Orders") },
                 navigationIcon = {
                     IconButton(onClick = { /* Handle back/nav */ }) {
                         Icon(Icons.Default.ArrowBack, contentDescription = "Back")
@@ -93,21 +83,13 @@ fun ScaffoldScreen(navController: NavController){
             NavigationBar(
                 containerColor = newOrange
             ){
-                NavigationBarItem(
-                    icon = { Icon(Icons.Default.Person, contentDescription = "Home") },
-                    label = { Text("Login") },
-                    selected = selectedIndex == 0,
-                    onClick = {
-                        selectedIndex = 0
-                        navController.navigate(ROUT_HOME)
-                    }
-                )
+                
                 NavigationBarItem(
                     icon = { Icon(Icons.Default.Favorite, contentDescription = "Favorites") },
                     label = { Text("Favorites") },
                     selected = selectedIndex == 1,
                     onClick = { selectedIndex = 1
-                         navController.navigate(ROUT_HOME)
+                        navController.navigate(ROUT_HOME)
                     }
                 )
 
@@ -133,88 +115,56 @@ fun ScaffoldScreen(navController: NavController){
                 modifier = Modifier
                     .padding(paddingValues)
                     .fillMaxSize()
-                   // .background(newOrange)
+                // .background(newOrange)
             ) {
 
 
                 //Main Contents of the page
 
-                Spacer(modifier = Modifier.height(10.dp))
-
-
-                //Card
-
-                Card(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(250.dp)
-                        .padding(horizontal = 10.dp),
-                    colors = CardDefaults.cardColors(newOrange)
-
-                ){
-                    Column(
-                        modifier = Modifier.fillMaxSize(),
-                        verticalArrangement = Arrangement.Center,
-                        horizontalAlignment = Alignment.CenterHorizontally
-                    ){
-
-
-                        //Lottie Animation
-                        val composition by rememberLottieComposition(spec = LottieCompositionSpec.RawRes(
-                            R.raw.cart))
-                        val progress by animateLottieCompositionAsState(composition)
-                        LottieAnimation(composition, progress,
-                            modifier = Modifier.size(300.dp)
-                        )
 
 
 
 
 
-                    }
+                val context = LocalContext.current
+                val orderViewModel = remember { OrderViewModel(navController, context) }
 
+// Fetch orders when screen loads
+                LaunchedEffect(Unit) {
+                    orderViewModel.fetchOrders()
                 }
 
-                //End of card
+                Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
 
+                    Text(
+                        text = "All Orders"
+                    )
 
+                    Spacer(modifier = Modifier.height(16.dp))
 
+                    LazyColumn {
+                        items(orderViewModel.ordersList) { order ->
 
+                            Card(
+                                modifier = Modifier
+                                    .fillMaxWidth()
+                                    .padding(bottom = 10.dp),
+                                elevation = CardDefaults.cardElevation(4.dp)
+                            ) {
+                                Column(modifier = Modifier.padding(16.dp)) {
 
+                                    Text(text = "Product: ${order.productName}")
+                                    Text(text = "Quantity: ${order.quantity}")
+                                    Text(text = "Price: ${order.price}")
+                                    Text(text = "Address: ${order.address}")
+                                    Text(text = "Status: ${order.status}")
+                                    Text(text = "OrderID: ${order.orderId}", fontSize = 12.sp)
+                                }
+                            }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                        }
+                    }
+                }
 
 
             }
@@ -223,15 +173,7 @@ fun ScaffoldScreen(navController: NavController){
 
     //End of scaffold
 
-
-
-
-
-
 }
 
-@Composable
-@Preview(showBackground = true)
-fun ScaffoldScreenPreview(){
-    ScaffoldScreen(rememberNavController())
-}
+
+

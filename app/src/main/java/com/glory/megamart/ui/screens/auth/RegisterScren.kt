@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -48,6 +49,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.glory.megamart.R
+import com.glory.megamart.data.AuthViewModel
 import com.glory.megamart.navigation.ROUT_ITEM
 import com.glory.megamart.navigation.ROUT_LOGIN
 import com.glory.megamart.ui.theme.newOrange
@@ -181,8 +183,17 @@ fun RegisterScreen(navController: NavController){
 
                 Spacer(modifier = Modifier.height(10.dp))
 
+
+
+                //Register Button
+                val context = LocalContext.current
+                val authViewModel = AuthViewModel(navController, context)
                 Button(
                     onClick = {
+
+                        authViewModel.signup(username, email, password,confirmpassword)
+
+
 
                     },
                     shape = RoundedCornerShape(10.dp),
@@ -195,7 +206,7 @@ fun RegisterScreen(navController: NavController){
                 Spacer(modifier = Modifier.height(10.dp))
 
                 TextButton(onClick = {
-
+                    navController.navigate(ROUT_LOGIN)
                 }) {
                     Text(
                         text = "Already have an account? Login",

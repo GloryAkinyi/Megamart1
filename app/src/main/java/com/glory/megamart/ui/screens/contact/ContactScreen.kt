@@ -162,6 +162,13 @@ fun ContactScreen(navController: NavController){
                 //End of Searchbar
 
 
+
+                Text(
+                    text = "Hello World",
+                    modifier = Modifier.align(alignment = Alignment.CenterHorizontally)
+                )
+
+
                 //Card
 
                 Card(
