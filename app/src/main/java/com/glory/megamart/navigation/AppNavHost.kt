@@ -91,6 +91,10 @@ fun AppNavHost(
             OrderUploadScreen(navController)
         }
 
+        composable(ROUT_VIEW_ORDER) {
+            ViewOrdersScreen(navController)
+        }
+
 
         composable(ROUTE_ADD_PRODUCT) { AddProductScreen(navController) }
 
@@ -106,9 +110,6 @@ fun AppNavHost(
 
 
 
-        composable(ROUT_VIEW_ORDER) {
-            ViewOrdersScreen(navController)
-        }
 
 
     }

@@ -33,6 +33,7 @@ import androidx.navigation.compose.rememberNavController
 import coil.compose.AsyncImage
 import com.glory.megamart.R
 import com.glory.megamart.data.ProductViewModel
+import com.glory.megamart.ui.theme.newOrange
 
 @Composable
 fun AddProductScreen(navController: NavController) {
@@ -53,21 +54,10 @@ fun AddProductScreen(navController: NavController) {
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(
-                Brush.verticalGradient(listOf(Color(0xFFFCE4EC), Color(0xFFF8BBD0)))
-            )
             .padding(16.dp)
     ) {
 
-        Card(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 16.dp)
-                .align(Alignment.Center),
-            shape = RoundedCornerShape(20.dp),
-            elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White)
-        ) {
+
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -75,22 +65,23 @@ fun AddProductScreen(navController: NavController) {
                     .verticalScroll(rememberScrollState()),
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
+
                 Text(
                     text = "Add New Product",
                     fontSize = 24.sp,
                     fontWeight = FontWeight.Bold,
-                    color = Color(0xFF880E4F)
+                    color = newOrange
                 )
 
                 Spacer(modifier = Modifier.height(16.dp))
 
-                Card(
+                // Image upload circle, replaced Card with Surface
+                Surface(
                     shape = CircleShape,
-                    elevation = CardDefaults.cardElevation(6.dp),
+                    shadowElevation = 6.dp,
                     modifier = Modifier
                         .size(140.dp)
                         .clickable { launcher.launch("image/*") }
-                        .shadow(8.dp, CircleShape)
                 ) {
                     AnimatedContent(
                         targetState = imageUri.value,
@@ -198,7 +189,7 @@ fun AddProductScreen(navController: NavController) {
                                 navController
                             )
                         },
-                        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFFD81B60)),
+                        colors = ButtonDefaults.buttonColors(containerColor = newOrange),
                         shape = RoundedCornerShape(12.dp),
                         modifier = Modifier.width(140.dp)
                     ) {
@@ -208,12 +199,13 @@ fun AddProductScreen(navController: NavController) {
 
                 Spacer(modifier = Modifier.height(20.dp))
             }
-        }
+
     }
 }
 
+
 @Composable
-@Preview(showBackground = true, showSystemUi = true)
+@Preview(showBackground = true)
 fun AddProductScreenPreview() {
     AddProductScreen(rememberNavController())
 }

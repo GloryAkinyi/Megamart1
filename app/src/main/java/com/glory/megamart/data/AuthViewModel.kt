@@ -84,7 +84,10 @@ class AuthViewModel(var navController: NavController, var context: Context){
 
                         if (role == "admin") {
                             navController.navigate(ROUT_ITEM)   // <-- change to your actual route
-                        } else {
+                        }
+
+
+                        else {
                             navController.navigate(ROUT_HOME)
                         }
 
@@ -107,6 +110,7 @@ class AuthViewModel(var navController: NavController, var context: Context){
         navController.navigate(ROUT_HOME)
     }
 
+    
     fun isLoggedIn(): Boolean = mAuth.currentUser != null
 
 }
